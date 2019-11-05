@@ -13,10 +13,10 @@ pipeline {
      BRANCH_NAME = sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()
      CLUSTER_NAME = "https://console.geeks18.ie"
 	 PROJECT_DEV="geeks18-dev" 
-	 GITLAB_PROJECT_PATH="https://gitlab.geeks18/api/v4/projects/joydipkumar%2Frecipe-service"
-	 OPENSHIFT_PROJECT_NAME="recipe-service"
-	 sonar_project_name="recipe-service"
-	 JAR="recipe-service-0.0.1-SNAPSHOT.jar"
+	 GITLAB_PROJECT_PATH="https://gitlab.geeks18/api/v4/projects/joydipkumar%2Fuser-service"
+	 OPENSHIFT_PROJECT_NAME="user-service"
+	 sonar_project_name="user-service"
+	 JAR="user-service-0.0.1-SNAPSHOT.jar"
 	 PORT='8080'
 	 CONFIG_SERVER="http://recipe-config-server-geeks18.geeks18.ie"
   }
