@@ -166,19 +166,13 @@ stages {
 		 stage('Creating App in Openshift') {
 			when{
 				expression {
-					return (BRANCH_NAME == 'master' || BRANCH_NAME == 'development') && currentBuild.currentResult !='FAILURE' ;
+					return (BRANCH_NAME == 'master' || BRANCH_NAME == 'development') && currentBuild.currentResult !='FAILURE' &&  !openshift.selector("dc",OPENSHIFT_PROJECT_NAME).exists();
 				}
 		    }
 		  steps {
 			script {
 			  openshift.withCluster( CLUSTER_NAME ) {
 			      openshift.withProject( PROJECT_DEV ) {
-						if (openshift.selector('dc', '${OPENSHIFT_PROJECT_NAME}').exists()) {
-							openshift.selector('dc', '${OPENSHIFT_PROJECT_NAME}').delete()
-							openshift.selector('svc', '${OPENSHIFT_PROJECT_NAME}').delete()
-							openshift.selector('route', '${OPENSHIFT_PROJECT_NAME}').delete()
-						}
-
 						openshift.newApp(OPENSHIFT_PROJECT_NAME+":latest", "--name="+OPENSHIFT_PROJECT_NAME).narrow('svc').expose()
 						withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'DB_CRED',
 							usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
